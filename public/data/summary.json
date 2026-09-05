@@ -1,0 +1,11 @@
+{
+  "period": {
+    "start": "2026-08-02",
+    "end": "2026-08-31"
+  },
+  "totalRequests": 318411,
+  "closedRequests": 263498,
+  "closedRate": 82.8,
+  "medianResolutionHours": 3.9,
+  "avgRequestsPerDay": 10613.7
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "agency": "NYPD",
+    "agencyName": "New York City Police Department",
+    "requests": 143693,
+    "share": 45.1
+  },
+  {
+    "agency": "HPD",
+    "agencyName": "Department of Housing Preservation and Development",
+    "requests": 54607,
+    "share": 17.1
+  },
+  {
+    "agency": "DSNY",
+    "agencyName": "Department of Sanitation",
+    "requests": 29522,
+    "share": 9.3
+  },
+  {
+    "agency": "DOT",
+    "agencyName": "Department of Transportation",
+    "requests": 22972,
+    "share": 7.2
+  },
+  {
+    "agency": "DEP",
+    "agencyName": "Department of Environmental Protection",
+    "requests": 21733,
+    "share": 6.8
+  },
+  {
+    "agency": "DPR",
+    "agencyName": "Department of Parks and Recreation",
+    "requests": 15375,
+    "share": 4.8
+  },
+  {
+    "agency": "DOB",
+    "agencyName": "Department of Buildings",
+    "requests": 11941,
+    "share": 3.8
+  },
+  {
+    "agency": "DOHMH",
+    "agencyName": "Department of Health and Mental Hygiene",
+    "requests": 8710,
+    "share": 2.7
+  },
+  {
+    "agency": "DHS",
+    "agencyName": "Department of Homeless Services",
+    "requests": 4074,
+    "share": 1.3
+  },
+  {
+    "agency": "TLC",
+    "agencyName": "Taxi and Limousine Commission",
+    "requests": 3165,
+    "share": 1.0
+  }
+]

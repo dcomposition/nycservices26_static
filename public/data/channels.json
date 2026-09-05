@@ -1,0 +1,22 @@
+[
+  {
+    "channel": "ONLINE",
+    "requests": 161514,
+    "share": 50.7
+  },
+  {
+    "channel": "PHONE",
+    "requests": 69666,
+    "share": 21.9
+  },
+  {
+    "channel": "MOBILE",
+    "requests": 58983,
+    "share": 18.5
+  },
+  {
+    "channel": "UNKNOWN",
+    "requests": 28248,
+    "share": 8.9
+  }
+]

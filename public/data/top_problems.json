@@ -1,0 +1,62 @@
+[
+  {
+    "problem": "Illegal Parking",
+    "requests": 49699,
+    "share": 15.6,
+    "medianResolutionHours": 1.5
+  },
+  {
+    "problem": "Noise - Residential",
+    "requests": 29157,
+    "share": 9.2,
+    "medianResolutionHours": 1.2
+  },
+  {
+    "problem": "Noise - Street/Sidewalk",
+    "requests": 22100,
+    "share": 6.9,
+    "medianResolutionHours": 1.1
+  },
+  {
+    "problem": "UNSANITARY CONDITION",
+    "requests": 14282,
+    "share": 4.5,
+    "medianResolutionHours": 222.0
+  },
+  {
+    "problem": "Blocked Driveway",
+    "requests": 14168,
+    "share": 4.4,
+    "medianResolutionHours": 1.8
+  },
+  {
+    "problem": "Street Condition",
+    "requests": 9397,
+    "share": 3.0,
+    "medianResolutionHours": 46.4
+  },
+  {
+    "problem": "Water Maintenance",
+    "requests": 8699,
+    "share": 2.7,
+    "medianResolutionHours": 1.5
+  },
+  {
+    "problem": "Dirty Condition",
+    "requests": 6995,
+    "share": 2.2,
+    "medianResolutionHours": 46.8
+  },
+  {
+    "problem": "Abandoned Vehicle",
+    "requests": 6655,
+    "share": 2.1,
+    "medianResolutionHours": 2.4
+  },
+  {
+    "problem": "PLUMBING",
+    "requests": 6506,
+    "share": 2.0,
+    "medianResolutionHours": 145.8
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "borough": "BROOKLYN",
+    "requests": 100789,
+    "share": 31.7
+  },
+  {
+    "borough": "QUEENS",
+    "requests": 82100,
+    "share": 25.8
+  },
+  {
+    "borough": "BRONX",
+    "requests": 61980,
+    "share": 19.5
+  },
+  {
+    "borough": "MANHATTAN",
+    "requests": 60491,
+    "share": 19.0
+  },
+  {
+    "borough": "STATEN ISLAND",
+    "requests": 12688,
+    "share": 4.0
+  },
+  {
+    "borough": "Unspecified",
+    "requests": 363,
+    "share": 0.1
+  }
+]
