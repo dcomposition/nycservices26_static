@@ -2,6 +2,10 @@
 
 Interactive operations dashboard built with NYC 311 Open Data.
 
+## Live Demo
+
+[View the live dashboard](https://nycservices26-static.vercel.app/)
+
 This project analyzes 318,411 NYC 311 service requests created between August 2 and August 31, 2026.
 
 ## Overview
