@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { AgencyChart } from "./components/AgencyChart";
-import { BoroughChart } from "./components/BoroughChart";
-import { ChannelChart } from "./components/ChannelChart";
 import { ChartCard } from "./components/ChartCard";
+import { DateRangeSelector } from "./components/DateRangeSelector";
 import { KpiCard } from "./components/KpiCard";
-import { ProblemsChart } from "./components/ProblemsChart";
+import { LiveAgencyChart } from "./components/LiveAgencyChart";
+import { LiveBoroughChart } from "./components/LiveBoroughChart";
+import { LiveChannelChart } from "./components/LiveChannelChart";
+import { LiveProblemsChart } from "./components/LiveProblemsChart";
 import { RequestsLineChart } from "./components/RequestsLineChart";
 import { loadDashboardData } from "./loadDashboardData";
 import type { DashboardData } from "./types";
@@ -49,13 +50,18 @@ export default function App() {
     <div className="min-h-screen">
       <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
         <header className="mb-8">
-          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
-            New York City Service Requests
-          </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">
-            NYC 311 Operations Dashboard
-          </h1>
-          <p className="mt-2 text-base text-slate-500">August 2–31, 2026</p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
+                New York City Service Requests
+              </p>
+              <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">
+                NYC 311 Operations Dashboard
+              </h1>
+              <p className="mt-2 text-base text-slate-500">August 2–31, 2026</p>
+            </div>
+            <DateRangeSelector />
+          </div>
         </header>
 
         {loading && (
@@ -120,14 +126,14 @@ export default function App() {
                 title="Top Problem Types"
                 subtitle="Most frequently reported service request categories"
               >
-                <ProblemsChart data={data.topProblems} />
+                <LiveProblemsChart fallbackData={data.topProblems} />
               </ChartCard>
               <ChartCard
                 className="lg:col-span-2"
                 title="Requests by Borough"
                 subtitle="Geographic distribution of service requests"
               >
-                <BoroughChart data={data.boroughs} />
+                <LiveBoroughChart fallbackData={data.boroughs} />
               </ChartCard>
             </section>
 
@@ -137,16 +143,16 @@ export default function App() {
                 title="Requests by Agency"
                 subtitle="Top NYC agencies by request volume"
               >
-                <AgencyChart data={data.agencies} />
+                <LiveAgencyChart fallbackData={data.agencies} />
               </ChartCard>
               <ChartCard
                 className="lg:col-span-2"
                 title="Request Channels"
                 subtitle="How residents submitted their service requests"
               >
-                <ChannelChart
-                  data={data.channels}
-                  totalRequests={data.summary.totalRequests}
+                <LiveChannelChart
+                  fallbackData={data.channels}
+                  fallbackTotal={data.summary.totalRequests}
                 />
               </ChartCard>
             </section>

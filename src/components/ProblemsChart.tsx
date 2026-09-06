@@ -12,7 +12,6 @@ import type { ProblemStat } from "../types";
 import {
   formatCompact,
   formatCompactNumber,
-  formatHours,
   formatInteger,
   formatPercent,
 } from "../utils/formatters";
@@ -62,9 +61,6 @@ export function ProblemsChart({ data }: ProblemsChartProps) {
                   <p className="font-medium text-slate-900">{item.problem}</p>
                   <p className="mt-1 text-slate-600">{formatInteger(item.requests)} requests</p>
                   <p className="text-slate-600">Share: {formatPercent(item.share)}</p>
-                  <p className="text-slate-600">
-                    Median resolution: {formatHours(item.medianResolutionHours)}
-                  </p>
                 </div>
               );
             }}

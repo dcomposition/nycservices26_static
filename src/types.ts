@@ -19,7 +19,7 @@ export type ProblemStat = {
   problem: string;
   requests: number;
   share: number;
-  medianResolutionHours: number | null;
+  medianResolutionHours?: number | null;
 };
 
 export type BoroughStat = {
@@ -48,4 +48,16 @@ export type DashboardData = {
   boroughs: BoroughStat[];
   agencies: AgencyStat[];
   channels: ChannelStat[];
+};
+
+export type DateRangePreset = "last7" | "last30" | "thisMonth" | "custom";
+
+export type DateRange = {
+  start: string;
+  end: string;
+};
+
+export type DatasetMeta = {
+  minDate: string;
+  maxDate: string;
 };

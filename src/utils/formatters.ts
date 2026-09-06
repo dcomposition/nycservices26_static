@@ -60,6 +60,30 @@ export function formatFullDate(isoDate: string): string {
   });
 }
 
-function parseIsoDate(isoDate: string): Date {
-  return new Date(`${isoDate}T00:00:00`);
+export function formatSelectedRange(start: string, end: string): string {
+  const startDate = parseIsoDate(start);
+  const endDate = parseIsoDate(end);
+  const startLabel = startDate.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+  const endLabel = endDate.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+  return `${startLabel} – ${endLabel}`;
+}
+
+export function formatAvailableThrough(maxDate: string): string {
+  return `Data available through ${parseIsoDate(maxDate).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })}`;
+}
+
+export function parseIsoDate(isoDate: string): Date {
+  const [year, month, day] = isoDate.split("-").map(Number);
+  return new Date(year, month - 1, day);
 }

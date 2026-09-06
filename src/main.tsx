@@ -1,10 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import { DateRangeProvider } from "./dateRange/DateRangeContext";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <DateRangeProvider>
+      <App />
+    </DateRangeProvider>
   </StrictMode>,
 );

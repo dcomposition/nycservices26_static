@@ -33,3 +33,4 @@ __pycache__/
 # Optional local Python environments
 .venv/
 venv/
+.vercel
