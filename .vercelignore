@@ -1,0 +1,9 @@
+*.csv
+node_modules/
+dist/
+.git/
+.env
+.env.*
+.venv/
+venv/
+__pycache__/
