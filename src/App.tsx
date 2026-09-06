@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
+import { AppliedPeriodSubtitle } from "./components/AppliedPeriodSubtitle";
 import { ChartCard } from "./components/ChartCard";
 import { DateRangeSelector } from "./components/DateRangeSelector";
-import { KpiCard } from "./components/KpiCard";
 import { LiveAgencyChart } from "./components/LiveAgencyChart";
 import { LiveBoroughChart } from "./components/LiveBoroughChart";
 import { LiveChannelChart } from "./components/LiveChannelChart";
+import { LiveKpiCards } from "./components/LiveKpiCards";
 import { LiveProblemsChart } from "./components/LiveProblemsChart";
-import { RequestsLineChart } from "./components/RequestsLineChart";
+import { LiveRequestsLineChart } from "./components/LiveRequestsLineChart";
 import { loadDashboardData } from "./loadDashboardData";
 import type { DashboardData } from "./types";
-import { formatHours, formatNumber, formatPercent } from "./utils/formatters";
 
 export default function App() {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -58,7 +58,7 @@ export default function App() {
               <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">
                 NYC 311 Operations Dashboard
               </h1>
-              <p className="mt-2 text-base text-slate-500">August 2–31, 2026</p>
+              <AppliedPeriodSubtitle />
             </div>
             <DateRangeSelector />
           </div>
@@ -87,37 +87,13 @@ export default function App() {
 
         {data && !loading && !error && (
           <div className="space-y-6">
-            <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <KpiCard
-                label="Total Requests"
-                value={formatNumber(data.summary.totalRequests)}
-                description="Service requests created during the selected period"
-              />
-              <KpiCard
-                label="Closed Rate"
-                value={formatPercent(data.summary.closedRate)}
-                description="Share of requests currently marked Closed"
-              />
-              <KpiCard
-                label="Median Resolution Time"
-                value={formatHours(data.summary.medianResolutionHours)}
-                description="Median time from creation to closure"
-              />
-              <KpiCard
-                label="Avg Requests / Day"
-                value={formatNumber(data.summary.avgRequestsPerDay)}
-                description="Average daily request volume"
-              />
-            </section>
+            <LiveKpiCards fallbackSummary={data.summary} />
 
             <ChartCard
               title="Requests by Day"
               subtitle="Daily service request volume"
             >
-              <RequestsLineChart
-                data={data.dailyRequests}
-                avgRequestsPerDay={data.summary.avgRequestsPerDay}
-              />
+              <LiveRequestsLineChart fallbackData={data.dailyRequests} />
             </ChartCard>
 
             <section className="grid grid-cols-1 gap-6 lg:grid-cols-5">

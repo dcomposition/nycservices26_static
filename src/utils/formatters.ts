@@ -75,6 +75,42 @@ export function formatSelectedRange(start: string, end: string): string {
   return `${startLabel} – ${endLabel}`;
 }
 
+export function formatAppliedPeriod(start: string, end: string): string {
+  const startDate = parseIsoDate(start);
+  const endDate = parseIsoDate(end);
+  const sameYear = startDate.getFullYear() === endDate.getFullYear();
+  const sameMonth = sameYear && startDate.getMonth() === endDate.getMonth();
+
+  if (sameMonth) {
+    const month = startDate.toLocaleDateString("en-US", { month: "short" });
+    return `${month} ${startDate.getDate()}–${endDate.getDate()}, ${startDate.getFullYear()}`;
+  }
+
+  if (sameYear) {
+    const startLabel = startDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+    const endLabel = endDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+    return `${startLabel} – ${endLabel}, ${endDate.getFullYear()}`;
+  }
+
+  const startLabel = startDate.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+  const endLabel = endDate.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+  return `${startLabel} – ${endLabel}`;
+}
+
 export function formatAvailableThrough(maxDate: string): string {
   return `Data available through ${parseIsoDate(maxDate).toLocaleDateString("en-US", {
     month: "short",

@@ -97,6 +97,10 @@ function ExtremumAnnotations({
 }
 
 export function RequestsLineChart({ data, avgRequestsPerDay }: RequestsLineChartProps) {
+  if (data.length === 0) {
+    return <div className="h-[320px] w-full" />;
+  }
+
   const peak = findExtremum(data, (candidate, current) => candidate > current);
   const low = findExtremum(data, (candidate, current) => candidate < current);
   const dates = data.map((row) => row.date);

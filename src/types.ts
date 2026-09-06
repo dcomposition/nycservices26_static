@@ -6,7 +6,7 @@ export type Summary = {
   totalRequests: number;
   closedRequests: number;
   closedRate: number;
-  medianResolutionHours: number;
+  medianResolutionHours: number | null;
   avgRequestsPerDay: number;
 };
 

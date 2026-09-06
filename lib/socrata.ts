@@ -84,6 +84,24 @@ export function createdDateWhere(start: string, endInclusive: string): string {
   return `created_date >= '${start}T00:00:00' AND created_date < '${endExclusive}T00:00:00'`;
 }
 
+export function normalizeIsoDate(value: unknown): string | null {
+  if (typeof value !== "string" && typeof value !== "number") {
+    return null;
+  }
+  const match = String(value).trim().match(/^(\d{4}-\d{2}-\d{2})/);
+  return match ? match[1] : null;
+}
+
+export function enumerateInclusiveDates(start: string, end: string): string[] {
+  const days: string[] = [];
+  let current = start;
+  while (current <= end) {
+    days.push(current);
+    current = nextIsoDate(current);
+  }
+  return days;
+}
+
 export function toCount(value: unknown): number {
   const numeric = typeof value === "number" ? value : Number(value);
   if (!Number.isFinite(numeric) || numeric < 0) {
@@ -156,11 +174,42 @@ export function upstreamErrorMessage(status: number, queryName: string): string 
   return `NYC Open Data could not complete the ${queryName} query.`;
 }
 
-export async function querySocrata(
+const RETRYABLE_STATUSES = new Set([502, 503, 504]);
+const MAX_RETRIES = 2;
+const RETRY_DELAY_MS = 400;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+function isRetryableStatus(status: number): boolean {
+  return RETRYABLE_STATUSES.has(status);
+}
+
+export type SocrataPage = {
+  pageNumber: number;
+  pageSize: number;
+};
+
+type SocrataQueryResult =
+  | { ok: true; payload: unknown }
+  | { ok: false; response: Response; retryable: boolean };
+
+async function querySocrataOnce(
   query: string,
   appToken: string,
   queryName: string,
-): Promise<{ ok: true; payload: unknown } | { ok: false; response: Response }> {
+  page?: SocrataPage,
+): Promise<SocrataQueryResult> {
+  const body: Record<string, unknown> = { query };
+  if (page) {
+    body.page = page;
+    body.includeSynthetic = false;
+    body.includeSystem = false;
+  }
+
   let upstream: Response;
   try {
     upstream = await fetch(SOCRATA_QUERY_URL, {
@@ -170,11 +219,12 @@ export async function querySocrata(
         "Content-Type": "application/json",
         "X-App-Token": appToken,
       },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify(body),
     });
   } catch {
     return {
       ok: false,
+      retryable: true,
       response: jsonResponse({ error: "Unable to reach NYC Open Data." }, 502),
     };
   }
@@ -185,6 +235,7 @@ export async function querySocrata(
   } catch {
     return {
       ok: false,
+      retryable: isRetryableStatus(upstream.status),
       response: jsonResponse(
         { error: "NYC Open Data returned a non-JSON response." },
         upstream.ok ? 502 : upstream.status,
@@ -195,6 +246,7 @@ export async function querySocrata(
   if (!upstream.ok) {
     return {
       ok: false,
+      retryable: isRetryableStatus(upstream.status),
       response: jsonResponse(
         { error: upstreamErrorMessage(upstream.status, queryName) },
         upstream.status >= 400 ? upstream.status : 502,
@@ -205,12 +257,44 @@ export async function querySocrata(
   return { ok: true, payload };
 }
 
+export async function querySocrata(
+  query: string,
+  appToken: string,
+  queryName: string,
+  page?: SocrataPage,
+): Promise<{ ok: true; payload: unknown } | { ok: false; response: Response }> {
+  let lastFailure: { ok: false; response: Response } | undefined;
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt += 1) {
+    if (attempt > 0) {
+      await sleep(RETRY_DELAY_MS);
+    }
+
+    const result = await querySocrataOnce(query, appToken, queryName, page);
+    if (result.ok) {
+      return result;
+    }
+
+    lastFailure = { ok: false, response: result.response };
+    if (!result.retryable) {
+      return lastFailure;
+    }
+  }
+
+  return lastFailure ?? {
+    ok: false,
+    response: jsonResponse({ error: "Unable to reach NYC Open Data." }, 502),
+  };
+}
+
 export function parseTotalCount(payload: unknown): number {
   const row = extractRows(payload)[0];
   if (!row) {
     return 0;
   }
-  return toCount(readField(row, ["requests", "count", "n"]));
+  return toCount(
+    readField(row, ["requests", "count", "n", "total_requests", "closed_requests"]),
+  );
 }
 
 export const socrataFunctionConfig = {
